@@ -1,7 +1,24 @@
+import memesData from "../data/memesData";
 import React from "react";
 
 
 export default function Meme() {
+    /**
+    * Challenge: 
+    * As soon as the Meme component loads the first time,
+    * make an API call to "https://api.imgflip.com/get_memes".
+    * 
+    * When the data comes in, save just the memes array part
+    * of that data to the `allMemes` state
+    * 
+    * Think about if there are any dependencies that, if they
+    * changed, you'd want to cause to re-run this function.
+    * 
+    * Hint: for now, don't try to use an async/await function.
+    * Instead, use `.then()` blocks to resolve the promises
+    * from using `fetch`. We'll learn why after this challenge.
+    */
+
     const [meme, setMeme] = React.useState({
         topText: "",
         bottomText: "",
@@ -10,55 +27,18 @@ export default function Meme() {
     const [allMemes, setAllMemes] = React.useState([])
 
 
-    // 1st-----
-    // React.useEffect(async () => {
-    //     fetch("https://api.imgflip.com/get_memes")
-    //         .then(res => res.json())
-    //         .then(data => setAllMemes(data.data.memes))
-    //     return () => {
-
-    //     }
-    // }, [])
-
-
-    // 2nd--------
-
-    // React.useEffect(() => {
-
-    //     async function getMemes() {
-    //         const res = await fetch("https://api.imgflip.com/get_memes")
-    //         const data = await res.json()
-    //         setAllMemes(data.data.memes)
-
-    //     }
-
-    //     getMemes()
-    //     return () => {
-
-    //     }
-    // }, [])
-
-
-
-    // 3rd------
     React.useEffect(() => {
-
-        async function getMemes() {
-            const res = await fetch("https://api.imgflip.com/get_memes")
-            const data = await res.json()
-            setAllMemes(data.data.memes)
-
-        }
-
-        getMemes()
+        fetch("https://api.imgflip.com/get_memes")
+            .then(res => res.json())
+            .then(data => setAllMemes(data.data.memes))
     }, [])
 
-
-
+    console.log(allMemes)
 
     function getMemeImage() {
-        const randomNumber = Math.floor(Math.random() * allMemes.length)
-        const url = allMemes[randomNumber].url
+        const memesArray = allMemes.data.memes
+        const randomNumber = Math.floor(Math.random() * memesArray.length)
+        const url = memesArray[randomNumber].url
         setMeme(prevMeme => ({
             ...prevMeme,
             randomImage: url
@@ -107,4 +87,5 @@ export default function Meme() {
             </div>
         </main>
     )
+
 }

@@ -1,64 +1,28 @@
+import memesData from "../data/memesData";
 import React from "react";
 
 
 export default function Meme() {
+    /**
+     * Challenge: 
+     * 1. Set up the text inputs to save to
+     *    the `topText` and `bottomText` state variables.
+     * 2. Replace the hard-coded text on the image with
+     *    the text being saved to state.
+     */
+
     const [meme, setMeme] = React.useState({
         topText: "",
         bottomText: "",
         randomImage: "http://i.imgflip.com/1bij.jpg"
     })
-    const [allMemes, setAllMemes] = React.useState([])
-
-
-    // 1st-----
-    // React.useEffect(async () => {
-    //     fetch("https://api.imgflip.com/get_memes")
-    //         .then(res => res.json())
-    //         .then(data => setAllMemes(data.data.memes))
-    //     return () => {
-
-    //     }
-    // }, [])
-
-
-    // 2nd--------
-
-    // React.useEffect(() => {
-
-    //     async function getMemes() {
-    //         const res = await fetch("https://api.imgflip.com/get_memes")
-    //         const data = await res.json()
-    //         setAllMemes(data.data.memes)
-
-    //     }
-
-    //     getMemes()
-    //     return () => {
-
-    //     }
-    // }, [])
-
-
-
-    // 3rd------
-    React.useEffect(() => {
-
-        async function getMemes() {
-            const res = await fetch("https://api.imgflip.com/get_memes")
-            const data = await res.json()
-            setAllMemes(data.data.memes)
-
-        }
-
-        getMemes()
-    }, [])
-
-
+    const [allMemeImages, setAllMemeImages] = React.useState(memesData)
 
 
     function getMemeImage() {
-        const randomNumber = Math.floor(Math.random() * allMemes.length)
-        const url = allMemes[randomNumber].url
+        const memesArray = allMemeImages.data.memes
+        const randomNumber = Math.floor(Math.random() * memesArray.length)
+        const url = memesArray[randomNumber].url
         setMeme(prevMeme => ({
             ...prevMeme,
             randomImage: url
@@ -101,10 +65,11 @@ export default function Meme() {
                 </button>
             </div>
             <div className="meme">
-                <img src={meme.randomImage} className="meme--image" />
+                <img src={meme.randomImage} className="meme--image" alt="" />
                 <h2 className="meme--text top">{meme.topText}</h2>
                 <h2 className="meme--text bottom">{meme.bottomText}</h2>
             </div>
         </main>
     )
+
 }
